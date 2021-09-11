@@ -36,7 +36,7 @@ def refresh():
             pt.cost = f'${(math.ceil(pt.duration.total_seconds()/3600))*30}.00'
             ws[f'G{pt.number + 1}'] = pt.cost
             wb.save('phm.xlsx')
-    return
+    return()
 
 def send_mail(send_from,send_to,subject,text,report,username,password,isTls=True):
     msg = MIMEMultipart()
@@ -56,6 +56,7 @@ def send_mail(send_from,send_to,subject,text,report,username,password,isTls=True
     smtp.login(username,password)
     smtp.sendmail(send_from, send_to, msg.as_string())
     smtp.quit()
+    return()
 
 
 wb = load_workbook('phm.xlsx')
@@ -97,7 +98,7 @@ if operation == 'open':
             except ValueError:
                 print('Please input table as an integer. i.e 1, 2, 3 etc.')
                 continue
-            if 0 < table < 12:
+            if 0 < table < 13:
                 for pt in pooltables:
                     if pt.number == table:
                         if pt.status == 'Unoccupied':
@@ -135,7 +136,7 @@ elif operation == 'close':
             except ValueError:
                 print('Please input table as an integer. i.e 1, 2, 3 etc.')
                 continue
-            if 0 < table < 12:
+            if 0 < table < 13:
                 for pt in pooltables:
                     if pt.number == table:
                         if pt.status == 'Occupied':
