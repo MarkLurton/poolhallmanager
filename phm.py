@@ -21,14 +21,14 @@ def refresh():
         ws = wb.active
         if pt.status == 'Occupied':
             pt.end = datetime.now().strftime('%B %d, %Y %H:%M')
-            ws[f'E{pt.number}'] = pt.end
+            ws[f'E{pt.number + 1}'] = pt.end
             pt.duration = __datetime(pt.end) - __datetime(pt.start)
             if pt.duration.total_seconds() > 3600:
-                ws[f'F{pt.number}'] = f'{pt.duration.total_seconds()/3600} Hours'
+                ws[f'F{pt.number + 1}'] = f'{pt.duration.total_seconds()/3600} Hours'
             else:
-                ws[f'F{pt.number}'] = f'{pt.duration.total_seconds()/60} Minutes'
+                ws[f'F{pt.number + 1}'] = f'{pt.duration.total_seconds()/60} Minutes'
             pt.cost = f'${(math.ceil(pt.duration.total_seconds()/3600))*30}.00'
-            ws[f'G{pt.number}'] = pt.cost
+            ws[f'G{pt.number + 1}'] = pt.cost
             wb.save('phm.xlsx')
     return
 
@@ -36,27 +36,28 @@ def refresh():
 wb = load_workbook('phm.xlsx')
 ws = wb.active
 
-pooltable1 = PoolTable(ws['A1'].value, int(ws['B1'].value), ws['C1'].value, ws['D1'].value, ws['E1'].value, ws['F1'].value, ws['G1'].value)
-pooltable2 = PoolTable(ws['A2'].value, int(ws['B2'].value), ws['C2'].value, ws['D2'].value, ws['E2'].value, ws['F2'].value, ws['G2'].value)
-pooltable3 = PoolTable(ws['A3'].value, int(ws['B3'].value), ws['C3'].value, ws['D3'].value, ws['E3'].value, ws['F3'].value, ws['G3'].value)
-pooltable4 = PoolTable(ws['A4'].value, int(ws['B4'].value), ws['C4'].value, ws['D4'].value, ws['E4'].value, ws['F4'].value, ws['G4'].value)
-pooltable5 = PoolTable(ws['A5'].value, int(ws['B5'].value), ws['C5'].value, ws['D5'].value, ws['E5'].value, ws['F5'].value, ws['G5'].value)
-pooltable6 = PoolTable(ws['A6'].value, int(ws['B6'].value), ws['C6'].value, ws['D6'].value, ws['E6'].value, ws['F6'].value, ws['G6'].value)
-pooltable7 = PoolTable(ws['A7'].value, int(ws['B7'].value), ws['C7'].value, ws['D7'].value, ws['E7'].value, ws['F7'].value, ws['G7'].value)
-pooltable8 = PoolTable(ws['A8'].value, int(ws['B8'].value), ws['C8'].value, ws['D8'].value, ws['E8'].value, ws['F8'].value, ws['G8'].value)
-pooltable9 = PoolTable(ws['A9'].value, int(ws['B9'].value), ws['C9'].value, ws['D9'].value, ws['E9'].value, ws['F9'].value, ws['G9'].value)
-pooltable10 = PoolTable(ws['A10'].value, int(ws['B10'].value), ws['C10'].value, ws['D10'].value, ws['E10'].value, ws['F10'].value, ws['G10'].value)
-pooltable11 = PoolTable(ws['A11'].value, int(ws['B11'].value), ws['C11'].value, ws['D11'].value, ws['E11'].value, ws['F11'].value, ws['G11'].value)
-pooltable12 = PoolTable(ws['A12'].value, int(ws['B12'].value), ws['C12'].value, ws['D12'].value, ws['E12'].value, ws['F12'].value, ws['G12'].value)
+pooltable1 = PoolTable(ws['A2'].value, int(ws['B2'].value), ws['C2'].value, ws['D2'].value, ws['E2'].value, ws['F2'].value, ws['G2'].value)
+pooltable2 = PoolTable(ws['A3'].value, int(ws['B3'].value), ws['C3'].value, ws['D3'].value, ws['E3'].value, ws['F3'].value, ws['G3'].value)
+pooltable3 = PoolTable(ws['A4'].value, int(ws['B4'].value), ws['C4'].value, ws['D4'].value, ws['E4'].value, ws['F4'].value, ws['G4'].value)
+pooltable4 = PoolTable(ws['A5'].value, int(ws['B5'].value), ws['C5'].value, ws['D5'].value, ws['E5'].value, ws['F5'].value, ws['G5'].value)
+pooltable5 = PoolTable(ws['A6'].value, int(ws['B6'].value), ws['C6'].value, ws['D6'].value, ws['E6'].value, ws['F6'].value, ws['G6'].value)
+pooltable6 = PoolTable(ws['A7'].value, int(ws['B7'].value), ws['C7'].value, ws['D7'].value, ws['E7'].value, ws['F7'].value, ws['G7'].value)
+pooltable7 = PoolTable(ws['A8'].value, int(ws['B8'].value), ws['C8'].value, ws['D8'].value, ws['E8'].value, ws['F8'].value, ws['G8'].value)
+pooltable8 = PoolTable(ws['A9'].value, int(ws['B9'].value), ws['C9'].value, ws['D9'].value, ws['E9'].value, ws['F9'].value, ws['G9'].value)
+pooltable9 = PoolTable(ws['A10'].value, int(ws['B10'].value), ws['C10'].value, ws['D10'].value, ws['E10'].value, ws['F10'].value, ws['G10'].value)
+pooltable10 = PoolTable(ws['A11'].value, int(ws['B11'].value), ws['C11'].value, ws['D11'].value, ws['E11'].value, ws['F11'].value, ws['G11'].value)
+pooltable11 = PoolTable(ws['A12'].value, int(ws['B12'].value), ws['C12'].value, ws['D12'].value, ws['E12'].value, ws['F12'].value, ws['G12'].value)
+pooltable12 = PoolTable(ws['A13'].value, int(ws['B13'].value), ws['C13'].value, ws['D13'].value, ws['E13'].value, ws['F13'].value, ws['G13'].value)
 
 pooltables = [pooltable1, pooltable2, pooltable3, pooltable4, pooltable5, pooltable6, pooltable7, pooltable8, pooltable9, pooltable10, pooltable11, pooltable12]
 
 while True:
     operation = input("Please enter 'open' to open a table, 'refresh' to refresh the tables, 'close' to close a table, or 'exit' to exit. ")
-    if operation == 'open' or 'refresh' or 'close' or 'exit':
+    if (operation == 'open') or (operation == 'refresh') or (operation == 'close') or (operation == 'exit'):
         break
     else:
-        print(f"Sorry.'{operation} is not a valid operation.")
+        print(f"Sorry.{operation} is not a valid operation.")
+        continue
 if operation == 'open':
     occupied = 0
     for opencheck in pooltables:
@@ -76,9 +77,9 @@ if operation == 'open':
                     if pt.number == table:
                         if pt.status == 'Unoccupied':
                             pt.status = 'Occupied'
-                            ws[f'C{pt.number}'] = pt.status
+                            ws[f'C{pt.number + 1}'] = pt.status
                             pt.start = datetime.now().strftime('%B %d, %Y %H:%M')
-                            ws[f'D{pt.number}'] = pt.start
+                            ws[f'D{pt.number + 1}'] = pt.start
                             print(f'Table {table} is now occupied.')
                             wb.save('phm.xlsx')
                             refresh()
@@ -114,15 +115,15 @@ elif operation == 'close':
                     if pt.number == table:
                         if pt.status == 'Occupied':
                             pt.end = datetime.now().strftime('%B %d, %Y %H:%M')
-                            ws[f'E{pt.number}'] = pt.end
+                            ws[f'E{pt.number + 1}'] = pt.end
                             pt.duration = __datetime(pt.end) - __datetime(pt.start)
                             if pt.duration.total_seconds() > 3600:
-                                ws[f'F{pt.number}'] = f'{pt.duration.total_seconds()/3600} Hours'
+                                ws[f'F{pt.number + 1}'] = f'{pt.duration.total_seconds()/3600} Hours'
                             else:
-                                ws[f'F{pt.number}'] = f'{pt.duration.total_seconds()/60} Minutes'
+                                ws[f'F{pt.number + 1}'] = f'{pt.duration.total_seconds()/60} Minutes'
                             pt.cost = f'${(math.ceil(pt.duration.total_seconds()/3600))*30}.00'
-                            pt.duration = ws[f'F{pt.number}'].value
-                            ws[f'G{pt.number}'] = pt.cost
+                            pt.duration = ws[f'F{pt.number + 1}'].value
+                            ws[f'G{pt.number + 1}'] = pt.cost
                             date = datetime.now().strftime('%B-%d-%Y')
                             report = open(f"{pt.name}_{date}.txt", "w+")
                             report.write(f'Pool Table Nummber: {pt.number}\n')
@@ -132,17 +133,18 @@ elif operation == 'close':
                             report.write(f'Cost: {pt.cost}')
                             report.close()
                             pt.status = 'Unoccupied'
-                            ws[f'C{pt.number}'] = pt.status
+                            ws[f'C{pt.number + 1}'] = pt.status
                             pt.start = ''
-                            ws[f'D{pt.number}'] = pt.start
+                            ws[f'D{pt.number + 1}'] = pt.start
                             pt.end = ''
-                            ws[f'E{pt.number}'] = pt.end
+                            ws[f'E{pt.number + 1}'] = pt.end
                             pt.duration = ''
-                            ws[f'F{pt.number}'] = pt.duration
+                            ws[f'F{pt.number + 1}'] = pt.duration
                             pt.cost = ''
-                            ws[f'G{pt.number}'] = pt.cost
+                            ws[f'G{pt.number + 1}'] = pt.cost
                             wb.save('phm.xlsx')
                             refresh()
+                            print(f'Table {table} is now available.')
                             esc1 = True
                             break
                         else:
