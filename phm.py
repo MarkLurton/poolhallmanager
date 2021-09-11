@@ -1,6 +1,12 @@
 from datetime import datetime, timedelta
-import math, time
+import math, smtplib
 from openpyxl import workbook, load_workbook
+from pathlib import Path
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.utils import formatdate
+from email import encoders
 
 class PoolTable:
     def __init__(self, name, number, status, start, end, duration, cost):
@@ -31,6 +37,25 @@ def refresh():
             ws[f'G{pt.number + 1}'] = pt.cost
             wb.save('phm.xlsx')
     return
+
+def send_mail(send_from,send_to,subject,text,report,username,password,isTls=True):
+    msg = MIMEMultipart()
+    msg['From'] = send_from
+    msg['To'] = send_to
+    msg['Subject'] = subject
+    msg.attach(MIMEText(text))
+
+    f = open(report)
+    part = MIMEText(f.read())
+    part.add_header('Content-Disposition', 'attachment', filename=report)
+    msg.attach(part)
+
+    smtp = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    if isTls:
+        smtp.starttls()
+    smtp.login(username,password)
+    smtp.sendmail(send_from, send_to, msg.as_string())
+    smtp.quit()
 
 
 wb = load_workbook('phm.xlsx')
@@ -144,6 +169,26 @@ elif operation == 'close':
                             ws[f'G{pt.number + 1}'] = pt.cost
                             wb.save('phm.xlsx')
                             refresh()
+                            emailanswer = input('Would you like to send the report in an email? y/n ')
+                            while True:
+                                if emailanswer == 'y':
+                                    try:
+                                        send_from = input('Who is the sender? ')
+                                        send_to = input('Please enter recipient email address. ')
+                                        subject = f"{pt.name} {date} Report"
+                                        text = f"Please find attached the {pt.name} {date} Report."
+                                        report = f"{pt.name}_{date}.txt"
+                                        username = input('Please enter your gmail address. ')
+                                        password = input('Please enter your password. ')
+                                        send_mail(send_from,send_to,subject,text,report,username,password,isTls=True)
+                                        break
+                                    except Exception as err:
+                                        print(f'{err}: Please check your inputs and try again.')
+                                        pass
+                                elif emailanswer == 'n':
+                                    break
+                                else:
+                                    print("Please answer with either 'y' or 'n'.")
                             print(f'Table {table} is now available.')
                             esc1 = True
                             break
