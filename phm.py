@@ -17,7 +17,7 @@ def __datetime(date_str):
 
 def refresh():
     for pt in pooltables:
-        wb = load_workbook('pt.xlsx')
+        wb = load_workbook('phm.xlsx')
         ws = wb.active
         if pt.status == 'Occupied':
             pt.end = datetime.now().strftime('%B %d, %Y %H:%M')
@@ -29,11 +29,11 @@ def refresh():
                 ws[f'F{pt.number}'] = f'{pt.duration.total_seconds()/60} Minutes'
             pt.cost = f'${(math.ceil(pt.duration.total_seconds()/3600))*30}.00'
             ws[f'G{pt.number}'] = pt.cost
-            wb.save('pt.xlsx')
+            wb.save('phm.xlsx')
     return
 
 
-wb = load_workbook('pt.xlsx')
+wb = load_workbook('phm.xlsx')
 ws = wb.active
 
 pooltable1 = PoolTable(ws['A1'].value, int(ws['B1'].value), ws['C1'].value, ws['D1'].value, ws['E1'].value, ws['F1'].value, ws['G1'].value)
@@ -80,7 +80,7 @@ if operation == 'open':
                             pt.start = datetime.now().strftime('%B %d, %Y %H:%M')
                             ws[f'D{pt.number}'] = pt.start
                             print(f'Table {table} is now occupied.')
-                            wb.save('pt.xlsx')
+                            wb.save('phm.xlsx')
                             refresh()
                             esc1 = True
                             break
@@ -141,7 +141,7 @@ elif operation == 'close':
                             ws[f'F{pt.number}'] = pt.duration
                             pt.cost = ''
                             ws[f'G{pt.number}'] = pt.cost
-                            wb.save('pt.xlsx')
+                            wb.save('phm.xlsx')
                             refresh()
                             esc1 = True
                             break
