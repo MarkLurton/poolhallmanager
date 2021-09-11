@@ -5,3 +5,4 @@
 # Keep track of occupied tables' start times, elapsed time, and accumulated cost.
 # Refresh the app to get up to date time elapsed and accumulated costs for live tables.
 # Generates a .txt report for the table once it is closed.
+# Option to send .txt report from your gmail to an email account of your choice
