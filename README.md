@@ -1,8 +1,7 @@
-# poolhallmanager
+# Pool Hall Manager
 
-# Fun, small scale python project. Manage a pool hall of 12 tables. Simply run from the terminal.
-# Open tables for players wanting to start, close tables when they've finished up.
-# Keep track of occupied tables' start time, elapsed time, and accumulated cost.
-# Refresh the app to get up to date time elapsed and accumulated costs for live tables.
-# Generates a .txt report for the table once it is closed.
-# Option to send .txt report from your gmail to an email account of your choice
+* Fun, small scale python project. Allows the user to manage a pool hall of 12 tables. Simply run pooltables.py from the terminal.
+* The user can open a new table for players who want to start playing and close a table once players are done.
+* The status of each table, start time, update time, elapsed time, and cost of each table is kept in pt.xlsx
+* The user can also refresh the manager to update pt.xlsx to the current time.
+* When the user closes a table, a txt file will be created reporting the table, start and end times, time elapsed and cost.
